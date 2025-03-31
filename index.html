@@ -2,7 +2,8 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#e2fe6c">
     <title>vorsorge.berlin - Altersvorsorge für Selbständige</title>
     <style>
         :root {
@@ -27,12 +28,20 @@
         }
         
         header {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.98);
             padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        /* Smaller header on scroll */
+        header.scrolled {
+            padding: 0.6rem 0;
         }
         
         .container {
@@ -118,6 +127,9 @@
         .hero-image img {
             max-width: 100%;
             border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            object-fit: cover;
+            height: auto;
         }
         
         .btn {
@@ -131,8 +143,47 @@
             transition: background-color 0.3s;
         }
         
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        
         .btn:hover {
-            background-color: #004080;
+            background-color: #001859;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,29,108,0.3);
+        }
+        
+        .btn:hover::after {
+            height: 100%;
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,29,108,0.3);
         }
         
         section {
@@ -181,6 +232,7 @@
         
         .card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         
         .card h3 {
@@ -201,6 +253,13 @@
             margin-right: 1rem;
             font-size: 1.2rem;
             font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover .card-icon {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
         
         .steps {
@@ -241,6 +300,15 @@
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .step:hover .step-number {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
         
         .tools {
@@ -353,6 +421,13 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(0,29,108,0.1);
         }
         
         footer {
@@ -403,21 +478,179 @@
         }
         
         /* Responsive */
+        /* Mobile Menu Hamburger */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            margin-left: auto;
+        }
+        
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: var(--secondary);
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger span:nth-child(1) {
+            top: 0;
+        }
+        
+        .hamburger span:nth-child(2) {
+            top: 8px;
+        }
+        
+        .hamburger span:nth-child(3) {
+            top: 16px;
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 8px;
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 8px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .steps {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 20px;
+            }
+            
+            .step {
+                min-width: 160px;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .hero-content, .card-container, .steps, .testimonial-container, .footer-content {
+            .container {
+                width: 95%;
+            }
+            
+            .hero-content, .card-container, .footer-content {
                 flex-direction: column;
+            }
+            
+            .hero-content {
+                text-align: center;
+            }
+            
+            .hero-text {
+                margin-bottom: 2rem;
+            }
+            
+            /* Mobile navigation */
+            .hamburger {
+                display: block;
             }
             
             nav ul {
                 display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background-color: white;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                padding: 1rem 0;
+                z-index: 1000;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 0;
+                padding: 1rem 2rem;
+                border-bottom: 1px solid #eee;
+            }
+            
+            nav ul li:last-child {
+                border-bottom: none;
+            }
+            
+            /* Steps section for mobile */
+            .steps {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                margin: 2rem -1rem;
+                padding: 0 1rem 1.5rem;
+                -webkit-overflow-scrolling: touch;
             }
             
             .steps::before {
                 display: none;
             }
             
-            .step, .card {
-                margin-bottom: 2rem;
+            .step {
+                flex: 0 0 auto;
+                min-width: 200px;
+                margin-right: 1.5rem;
+            }
+            
+            .step:last-child {
+                margin-right: 0;
+            }
+            
+            /* Cards for mobile */
+            .card {
+                margin-bottom: 1.5rem;
+            }
+            
+            /* Testimonials for mobile */
+            .testimonial-container {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 1.5rem;
+            }
+            
+            .testimonial {
+                flex: 0 0 auto;
+                width: 85%;
+                margin-right: 1rem;
+            }
+            
+            /* Form for mobile */
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .section-title h2 {
+                font-size: 1.5rem;
+            }
+            
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
             }
         }
     </style>
@@ -430,6 +663,11 @@
                     <span class="highlight">HT</span> vorsorge.berlin
                 </div>
                 <nav>
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                     <ul>
                         <li><a href="#grundlagen">Grundlagen</a></li>
                         <li><a href="#vorsorgeplanung">Vorsorgeplanung</a></li>
@@ -648,7 +886,7 @@
                     <textarea id="message" rows="4" placeholder="Wie können wir dir helfen?"></textarea>
                 </div>
                 
-                <button class="btn">Absenden</button>
+                <button type="submit" class="btn">Absenden</button>
             </div>
         </div>
     </section>
@@ -696,12 +934,115 @@
     </footer>
 
     <script>
-        // Simple toggle for tools
-        document.querySelectorAll('.tool-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const tool = header.parentElement;
-                tool.classList.toggle('active');
+        // Mobile navigation toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle for tools
+            document.querySelectorAll('.tool-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const tool = header.parentElement;
+                    tool.classList.toggle('active');
+                });
             });
+            
+            // Mobile menu
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('nav ul');
+            
+            hamburger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking on a nav item
+            document.querySelectorAll('nav ul li a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('nav') && navMenu.classList.contains('active')) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+            
+            // Smaller header on scroll
+            const header = document.querySelector('header');
+            const scrollThreshold = 50;
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > scrollThreshold) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Touch-friendly tool headers
+            if ('ontouchstart' in window) {
+                document.querySelectorAll('.tool-header').forEach(header => {
+                    header.style.cursor = 'pointer';
+                });
+            }
+            
+            // Form validation
+            const contactForm = document.querySelector('.contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    let valid = true;
+                    
+                    // Simple validation
+                    const name = document.getElementById('name');
+                    const email = document.getElementById('email');
+                    
+                    if (!name.value.trim()) {
+                        valid = false;
+                        name.style.borderColor = 'red';
+                    } else {
+                        name.style.borderColor = '#ddd';
+                    }
+                    
+                    if (!email.value.trim() || !email.value.includes('@')) {
+                        valid = false;
+                        email.style.borderColor = 'red';
+                    } else {
+                        email.style.borderColor = '#ddd';
+                    }
+                    
+                    if (valid) {
+                        alert('Danke für deine Nachricht! Wir melden uns in Kürze bei dir.');
+                        contactForm.reset();
+                    }
+                });
+            }
         });
     </script>
 </body>
