@@ -27,6 +27,7 @@
             --radius-md: 8px;
             --radius-lg: 12px;
             --container-padding: clamp(1rem, 5%, 2rem);
+            --section-spacing: 8rem; /* Added section spacing variable */
         }
         
         * {
@@ -284,6 +285,14 @@
             padding-top: 2rem;
         }
         
+        /* Added spacing for specific sections */
+        section.spaced-section {
+            margin-top: var(--section-spacing);
+            margin-bottom: var(--section-spacing);
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+        
         .section-title {
             text-align: center;
             margin-bottom: 3rem;
@@ -369,58 +378,121 @@
             padding-top: 2rem;
         }
         
-        /* Steps */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2.5rem;
+        /* Updated Steps */
+        .steps-container {
             position: relative;
-            margin: 3rem 0;
+            padding: 3rem 0;
+            background-color: var(--light);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
         }
         
-        .steps::before {
+        .steps-container::before {
             content: '';
             position: absolute;
-            top: 30px;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
-            background-color: var(--primary);
-            z-index: -1;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(226, 254, 108, 0.2), transparent 60%),
+                        radial-gradient(circle at bottom left, rgba(0, 29, 108, 0.1), transparent 60%);
+            z-index: 0;
+        }
+        
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            gap: 2.5rem;
         }
         
         .step {
+            flex: 0 0 calc(20% - 2.5rem);
+            min-width: 200px;
             text-align: center;
+            padding: 2rem 1.5rem;
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         
+        .step:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
         .step-number {
-            width: 60px;
-            height: 60px;
-            background-color: var(--primary);
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--secondary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: bold;
             margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
             position: relative;
-            z-index: 2;
-            transition: var(--transition);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid white;
         }
         
         .step:hover .step-number {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-md);
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .step::after {
+            content: '';
+            position: absolute;
+            top: 35px;
+            right: -30px;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+            z-index: 1;
+        }
+        
+        .step:last-child::after {
+            display: none;
+        }
+        
+        .step-icon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: var(--shadow-sm);
+            font-size: 1rem;
         }
         
         .step h3 {
             margin-bottom: 0.75rem;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .step p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+            color: rgba(0, 0, 0, 0.7);
         }
         
         /* Tools */
@@ -773,6 +845,63 @@
             transform: translateY(-3px);
         }
         
+        /* Cookie Consent */
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 1.5rem;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            z-index: 9999;
+            display: none;
+            animation: slideUp 0.5s ease forwards;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
+        .cookie-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .cookie-text {
+            flex: 1;
+            min-width: 280px;
+        }
+        
+        .cookie-text h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .cookie-text p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .cookie-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .cookie-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            min-width: auto;
+        }
+        
         /* Responsive */
         @media (max-width: 992px) {
             section {
@@ -782,6 +911,21 @@
             .hero {
                 padding: 4rem 0;
                 margin-bottom: 4rem;
+            }
+            
+            .step::after {
+                display: none;
+            }
+            
+            .steps {
+                flex-direction: column;
+                align-items: center;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            
+            .step {
+                width: 100%;
             }
         }
         
@@ -831,10 +975,6 @@
                 margin-top: 2rem;
             }
             
-            .steps::before {
-                display: none;
-            }
-            
             .step {
                 margin-bottom: 2rem;
             }
@@ -845,6 +985,15 @@
             
             .contact-form {
                 padding: 1.5rem;
+            }
+            
+            .cookie-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .cookie-buttons {
+                justify-content: flex-start;
             }
         }
         
@@ -948,40 +1097,78 @@
         </div>
     </section>
 
-    <section id="vorsorgeplanung" class="container fade-in" style="animation-delay: 0.4s;">
-        <div class="section-title">
-            <h2>Deine Vorsorgeplanung in 5 Schritten</h2>
-        </div>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Bestandsaufnahme</h3>
-                <p>Analyse deiner aktuellen finanziellen Situation und Vorsorgelücke</p>
+    <!-- Updated section with more spacing and improved visual design -->
+    <section id="vorsorgeplanung" class="spaced-section fade-in" style="animation-delay: 0.4s;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Dein Vorsorgeplan in 5 Schritten</h2>
             </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Zieldefinition</h3>
-                <p>Festlegung deiner Vorsorge-Ziele und des gewünschten Lebensstandards im Alter</p>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Strategie</h3>
-                <p>Entwicklung einer maßgeschneiderten Vorsorgstrategie für deine Bedürfnisse</p>
-            </div>
-            <div class="step">
-                <div class="step-number">4</div>
-                <h3>Umsetzung</h3>
-                <p>Begleitung bei der Umsetzung und regelmäßige Überprüfung</p>
-            </div>
-            <div class="step">
-                <div class="step-number">5</div>
-                <h3>Überprüfung</h3>
-                <p>Jährliche Überprüfung und Anpassung bei Bedarf</p>
+            
+            <div class="steps-container">
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <h3>Bestandsaufnahme</h3>
+                        <p>Analyse deiner aktuellen finanziellen Situation und Vorsorgelücke</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                        </div>
+                        <h3>Zieldefinition</h3>
+                        <p>Festlegung deiner Vorsorge-Ziele und des gewünschten Lebensstandards im Alter</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Strategie</h3>
+                        <p>Entwicklung einer maßgeschneiderten Vorsorgstrategie für deine Bedürfnisse</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <h3>Umsetzung</h3>
+                        <p>Begleitung bei der Umsetzung und regelmäßige Überprüfung</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                            </svg>
+                        </div>
+                        <h3>Überprüfung</h3>
+                        <p>Jährliche Überprüfung und Anpassung bei Bedarf</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="tools" class="container fade-in" style="animation-delay: 0.5s;">
+    <!-- Added spacing to Tools & Rechner section -->
+    <section id="tools" class="container spaced-section fade-in" style="animation-delay: 0.5s;">
         <div class="section-title">
             <h2>Tools & Rechner</h2>
         </div>
@@ -1071,7 +1258,8 @@
         </div>
     </section>
 
-    <section id="beratung" class="container fade-in" style="animation-delay: 0.7s;">
+    <!-- Added spacing to "Jetzt konkret loslegen" section -->
+    <section id="beratung" class="container spaced-section fade-in" style="animation-delay: 0.7s;">
         <div class="section-title">
             <h2>Jetzt konkret loslegen</h2>
         </div>
@@ -1141,20 +1329,23 @@
         </div>
     </section>
 
+    <!-- Updated footer with new address -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>vorsorge.berlin</h3>
-                    <p>House of Finance & Tech<br>
-                    Musterstraße 123<br>
-                    10115 Berlin</p>
+                    <p>House of Finance and Tech Berlin GmbH<br>
+                    (HoFT Berlin GmbH)<br>
+                    c/o Spielfeld Digital Hub GmbH<br>
+                    Skalitzer Str. 85-86<br>
+                    10997 Berlin</p>
                 </div>
                 
                 <div class="footer-column">
                     <h3>Kontakt</h3>
-                    <p>Tel: 030 123456789<br>
-                    E-Mail: info@vorsorge-berlin.de</p>
+                    <p>Tel: +49 (0)30 43974287-0<br>
+                    E-Mail: info@hoft.berlin</p>
                 </div>
                 
                 <div class="footer-column">
@@ -1178,10 +1369,25 @@
             </div>
             
             <div class="copyright">
-                <p>&copy; 2025 vorsorge.berlin | House of Finance & Tech</p>
+                <p>&copy; 2025 vorsorge.berlin | House of Finance and Tech Berlin GmbH</p>
             </div>
         </div>
     </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-consent" id="cookie-consent">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <h3>Hinweis zu Cookies</h3>
+                <p>Diese Website verwendet Cookies, um Ihnen ein optimales Nutzererlebnis zu bieten. Durch die weitere Nutzung unserer Website stimmen Sie der Verwendung von Cookies zu. Detaillierte Informationen zur Verwendung von Cookies finden Sie in unserer <a href="#">Datenschutzerklärung</a>.</p>
+            </div>
+            <div class="cookie-buttons">
+                <button id="accept-all-cookies" class="btn cookie-btn">Alle akzeptieren</button>
+                <button id="accept-essential-cookies" class="btn cookie-btn btn-secondary">Nur essenzielle Cookies</button>
+                <button id="cookie-settings" class="btn cookie-btn btn-secondary">Einstellungen</button>
+            </div>
+        </div>
+    </div>
 
     <a href="#" class="back-to-top" id="back-to-top" aria-label="Nach oben scrollen">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1198,7 +1404,34 @@
             const toolHeaders = document.querySelectorAll('.tool-header');
             const backToTop = document.getElementById('back-to-top');
             const contactForm = document.getElementById('contact-form');
+            const cookieConsent = document.getElementById('cookie-consent');
+            const acceptAllCookies = document.getElementById('accept-all-cookies');
+            const acceptEssentialCookies = document.getElementById('accept-essential-cookies');
+            const cookieSettings = document.getElementById('cookie-settings');
             const scrollThreshold = 100;
+            
+            // Show cookie consent
+            if (!localStorage.getItem('cookieConsent')) {
+                setTimeout(() => {
+                    cookieConsent.style.display = 'block';
+                }, 1000);
+            }
+            
+            // Cookie consent handlers
+            acceptAllCookies.addEventListener('click', () => {
+                localStorage.setItem('cookieConsent', 'all');
+                cookieConsent.style.display = 'none';
+            });
+            
+            acceptEssentialCookies.addEventListener('click', () => {
+                localStorage.setItem('cookieConsent', 'essential');
+                cookieConsent.style.display = 'none';
+            });
+            
+            cookieSettings.addEventListener('click', () => {
+                // In a real implementation, this would open a modal with detailed cookie settings
+                alert('In einer vollständigen Implementierung würde hier ein Modal mit detaillierten Cookie-Einstellungen geöffnet werden.');
+            });
             
             // Toggle mobile menu
             hamburger.addEventListener('click', toggleMobileMenu);
