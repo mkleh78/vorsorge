@@ -52,6 +52,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            padding-top: 72px; /* Platz für den fixierten Header */
         }
         
         /* Typography */
@@ -91,8 +92,11 @@
             background-color: rgba(255, 255, 255, 0.98);
             padding: 1rem 0;
             box-shadow: var(--shadow-sm);
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
             z-index: 1000;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -1076,6 +1080,10 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                padding-top: 62px; /* Angepasst für kleineren Header auf mobilen Geräten */
+            }
+            
             .hamburger {
                 display: block;
             }
@@ -1156,6 +1164,10 @@
         @media (max-width: 576px) {
             :root {
                 --container-padding: 1rem;
+            }
+            
+            body {
+                padding-top: 58px; /* Noch etwas weniger für die kleinsten Bildschirme */
             }
             
             .card,
