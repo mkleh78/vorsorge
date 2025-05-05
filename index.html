@@ -1057,6 +1057,22 @@
             .step {
                 width: 100%;
             }
+            
+            /* Modifizierte Stil für die Icons bei <992px */
+            .step {
+                padding-top: 3rem; /* Erhöhtes Padding, um Platz für das Icon zu schaffen */
+            }
+            
+            .step-icon {
+                top: 0;
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+            
+            .step:hover .step-icon {
+                transform: translateX(-50%) translateY(-50%) rotate(0) scale(1.2);
+            }
         }
         
         @media (max-width: 768px) {
@@ -1107,6 +1123,7 @@
             
             .step {
                 margin-bottom: 2rem;
+                padding-top: 3.5rem; /* Noch mehr Platz für das Icon auf kleinen Screens */
             }
             
             .btn-group {
@@ -1124,6 +1141,15 @@
             
             .cookie-buttons {
                 justify-content: flex-start;
+            }
+            
+            /* Zusätzliche Anpassungen für Step-Icons auf mobilen Geräten */
+            .step-icon {
+                width: 42px; /* Etwas größer auf kleinen Screens */
+                height: 42px;
+                font-size: 1.3rem;
+                z-index: 10; /* Höherer z-index, um sicherzustellen, dass es sichtbar ist */
+                box-shadow: var(--shadow-lg); /* Stärkerer Schatten für bessere Sichtbarkeit */
             }
         }
         
@@ -1155,6 +1181,18 @@
             .testimonial-author img {
                 margin-right: 0;
                 margin-bottom: 0.75rem;
+            }
+            
+            /* Weitere Anpassungen für sehr kleine Bildschirme */
+            .step {
+                min-width: 200px;
+                padding: 4rem 1.2rem 2rem; /* Mehr Platz oben für das Icon */
+            }
+            
+            .step-number {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
             }
         }
     </style>
